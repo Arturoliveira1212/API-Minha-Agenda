@@ -1,0 +1,32 @@
+# Ignorar arquivos desnecessários no build
+.git
+.gitignore
+README.md
+DEVELOPER-GUIDE.md
+docker-compose.yml
+Dockerfile
+.env
+.env.example
+
+# Logs
+*.log
+
+# Dependências que serão instaladas no container
+vendor/
+
+# Arquivos temporários
+*.tmp
+*.temp
+
+# Arquivos do sistema
+.DS_Store
+Thumbs.db
+
+# IDE
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# Cache
+.cache/
