@@ -2,23 +2,20 @@
 
 namespace MinhaAgenda\Factory;
 
+use MinhaAgenda\Middleware\AutorizacaoMiddleware;
+use MinhaAgenda\Middleware\TipoUsuarioMiddleware;
+use MinhaAgenda\Model\Entity\Administrador;
+use MinhaAgenda\Model\Entity\Cliente;
+
 class MiddlewareFactory {
-    // public static function autenticacao(): AutenticacaoMiddleware {
-    //     return new AutenticacaoMiddleware();
-    // }
+    public static function autorizacao(): AutorizacaoMiddleware {
+        return new AutorizacaoMiddleware(
+            ClassFactory::makeService(Administrador::class),
+            ClassFactory::makeService(Cliente::class)
+        );
+    }
 
-    // public static function permissao(): PermissaoMiddleware {
-    //     /** @var UsuarioService */
-    //     $usuarioService = ClassFactory::makeService(Usuario::class);
-
-    //     return new PermissaoMiddleware($usuarioService);
-    // }
-
-    // public static function corpoRequisicao(array $camposObrigatorios = [], array $camposOpcionais = [], string $contentType = 'application/json'): CorpoRequisicaoMiddleware {
-    //     return new CorpoRequisicaoMiddleware(
-    //         $contentType,
-    //         $camposObrigatorios,
-    //         $camposOpcionais
-    //     );
-    // }
+    public static function tipoUsuario(array $tiposUsuario): TipoUsuarioMiddleware {
+        return new TipoUsuarioMiddleware($tiposUsuario);
+    }
 }

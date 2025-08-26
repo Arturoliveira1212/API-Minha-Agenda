@@ -19,6 +19,7 @@ enum StatusHttp: int {
     case METHOD_NOT_ALLOWED = 405;
     case CONFLICT = 409;
     case UNPROCESSABLE_ENTITY = 422;
+    case TOO_MANY_REQUESTS = 429;
 
     case INTERNAL_SERVER_ERROR = 500;
     case NOT_IMPLEMENTED = 501;

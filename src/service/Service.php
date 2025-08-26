@@ -14,16 +14,16 @@ abstract class Service {
         $this->repository = $repository;
     }
 
-    public function salvar(array $dados, int|null $idRecursoPai = null): int {
-        $objeto = $this->preSalvar($dados, $idRecursoPai);
+    public function salvar(array $dados, int|null $id = null, int|null $idRecursoPai = null): int {
+        $objeto = $this->preSalvar($dados, $id, $idRecursoPai);
         $this->repository->salvar($objeto, $idRecursoPai);
         $this->posSalvar($objeto, $idRecursoPai);
 
         return $objeto->getId();
     }
 
-    protected function preSalvar(array $dados, int|null $idRecursoPai = null): Model {
-        $objeto = $this->criarObjeto($dados);
+    protected function preSalvar(array $dados, int|null $id = null, int|null $idRecursoPai = null): Model {
+        $objeto = $this->criarObjeto($dados, $id);
 
         $ehAtualizacao = !$objeto->temIdInexistente();
         if ($ehAtualizacao && !$this->repository->existe('id', $objeto->getId())) {
@@ -36,7 +36,7 @@ abstract class Service {
         return $objeto;
     }
 
-    abstract protected function criarObjeto(array $dados, int|null $id = null): Model;
+    abstract protected function criarObjeto(array $dados, int|null $id = null, int|null $idRecursoPai = null): Model;
 
     protected function validar(Model $objeto, array &$erros = [], int|null $idRecursoPai = null): void {
         if (!empty($erros)) {

@@ -2,35 +2,15 @@
 
 namespace MinhaAgenda\Model\Entity;
 
-use MinhaAgenda\Model\Entity\Model;
+use MinhaAgenda\Enum\TipoUsuario;
 
-class Usuario extends Model {
-    private string $nome;
-    private string $email;
+interface Usuario {
+    const TAMANHO_MINIMO_SENHA = 8;
+    const TAMANHO_MAXIMO_SENHA = 20;
 
-    public function getNome(): string {
-        return $this->nome;
-    }
-
-    public function setNome(string $nome): self {
-        $this->nome = $nome;
-        return $this;
-    }
-
-    public function getEmail(): string {
-        return $this->email;
-    }
-
-    public function setEmail(string $email): self {
-        $this->email = $email;
-        return $this;
-    }
-
-    public function emArray(): array {
-        return [
-            'id' => $this->getId(),
-            'nome' => $this->getNome(),
-            'email' => $this->getEmail(),
-        ];
-    }
+    public function getId(): int;
+    public function getNome(): string;
+    public function getEmail(): string;
+    public function getSenha(): string;
+    public function getTipo(): TipoUsuario;
 }

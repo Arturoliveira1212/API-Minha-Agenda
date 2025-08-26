@@ -9,14 +9,14 @@ use MinhaAgenda\Enum\StatusHttp;
 use MinhaAgenda\Controller\Controller;
 use MinhaAgenda\Exception\ValidacaoException;
 
-class UsuarioController extends Controller {
+class AdministradorController extends Controller {
 
     public function novo(Request $request, Response $response, array $args): Response {
         $corpoRequisicao = (array) $request->getParsedBody();
         $this->validarCorpoRequisicaoNovo($corpoRequisicao);
         $id = $this->service->salvar($corpoRequisicao);
 
-        return $this->enviarResposta($response, StatusHttp::CREATED, 'Usuário criado com sucesso.', [
+        return $this->enviarResposta($response, StatusHttp::CREATED, 'Administrador criado com sucesso.', [
             'idCriado' => $id
         ]);
     }
@@ -33,18 +33,18 @@ class UsuarioController extends Controller {
     }
 
     public function atualizar(Request $request, Response $response, array $args): Response {
-        return $this->enviarResposta($response, StatusHttp::OK, 'Usuário atualizado com sucesso.');
+        return $this->enviarResposta($response, StatusHttp::OK, 'Administrador atualizado com sucesso.');
     }
 
     public function obterTodos(Request $request, Response $response, array $args): Response {
-        return $this->enviarResposta($response, StatusHttp::OK, 'Lista de usuários', [
-            'dados' => [] // Aqui você deve retornar a lista de usuários
+        return $this->enviarResposta($response, StatusHttp::OK, 'Lista de administradores', [
+            'dados' => [] // Aqui você deve retornar a lista de administradores
         ]);
     }
 
     public function obterComId(Request $request, Response $response, array $args): Response {
-        return $this->enviarResposta($response, StatusHttp::OK, 'Usuário encontrado', [
-            'dados' => [] // Aqui você deve retornar os dados do usuário
+        return $this->enviarResposta($response, StatusHttp::OK, 'Administrador encontrado', [
+            'dados' => [] // Aqui você deve retornar os dados do administrador
         ]);
     }
 

@@ -3,15 +3,15 @@
 namespace MinhaAgenda\Model\Repository;
 
 use MinhaAgenda\Model\Entity\Model;
-use MinhaAgenda\Model\Entity\Usuario;
+use MinhaAgenda\Model\Entity\Administrador;
 use MinhaAgenda\Model\Repository\RepositoryEmBDR;
 
-class UsuarioRepository extends RepositoryEmBDR {
+class AdministradorRepository extends RepositoryEmBDR {
     protected function nomeTabela(): string {
-        return 'usuario';
+        return 'administrador';
     }
 
-    protected function adicionarNovo(Model $usuario, int|null $idRecursoPai = null): void {
+    protected function adicionarNovo(Model $administrador, int|null $idRecursoPai = null): void {
         $comando = "INSERT INTO {$this->nomeTabela()} (
                 nome,
                 email,
@@ -21,15 +21,16 @@ class UsuarioRepository extends RepositoryEmBDR {
                 :email,
                 :senha
             )";
-        $parametros = $this->parametrosAdicionarNovo($usuario);
+        $parametros = $this->parametrosAdicionarNovo($administrador);
 
         $this->bancoDados->executar($comando, $parametros);
     }
 
-    private function parametrosAdicionarNovo(Usuario $usuario): array {
+    private function parametrosAdicionarNovo(Administrador $administrador): array {
         return [
-            'nome' => $usuario->getNome(),
-            'email' => $usuario->getEmail()
+            'nome' => $administrador->getNome(),
+            'email' => $administrador->getEmail(),
+            'senha' => $administrador->getSenha()
         ];
     }
 
@@ -44,11 +45,12 @@ class UsuarioRepository extends RepositoryEmBDR {
         $this->bancoDados->executar($comando, $parametros);
     }
 
-    private function parametrosAtualizar(Usuario $usuario): array {
+    private function parametrosAtualizar(Administrador $administrador): array {
         return [
-            'id' => $usuario->getId(),
-            'nome' => $usuario->getNome(),
-            'email' => $usuario->getEmail()
+            'id' => $administrador->getId(),
+            'nome' => $administrador->getNome(),
+            'email' => $administrador->getEmail(),
+            'senha' => $administrador->getSenha()
         ];
     }
 
@@ -70,9 +72,10 @@ class UsuarioRepository extends RepositoryEmBDR {
         return $comando;
     }
 
-    protected function transformarEmObjeto(array $dados): Usuario {
-        return new Usuario(intval($dados['id']))
+    protected function transformarEmObjeto(array $dados): Administrador {
+        return new Administrador(intval($dados['id']))
             ->setNome($dados['nome'])
-            ->setEmail($dados['email']);
+            ->setEmail($dados['email'])
+            ->setSenha($dados['senha']);
     }
 }

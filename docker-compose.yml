@@ -11,10 +11,14 @@ services:
       DB_USERNAME: ${DB_USERNAME}
       DB_PASSWORD: ${DB_PASSWORD}
       SECRET_KEY_JWT: ${SECRET_KEY_JWT}
+      REDIS_HOST: ${REDIS_HOST}
+      REDIS_PORT: ${REDIS_PORT}
+      REDIS_PASSWORD: ${REDIS_PASSWORD}
     volumes:
       - ./:/var/www/html
     depends_on:
       - db
+      - redis
 
   db:
     image: mysql:8.0
@@ -25,7 +29,7 @@ services:
       MYSQL_USER: ${DB_USERNAME}
       MYSQL_PASSWORD: ${DB_PASSWORD}
     ports:
-      - "3306:3306"
+      - "${DB_PORT}:3306"
     volumes:
       - dbdata:/var/lib/mysql
 
@@ -37,5 +41,15 @@ services:
     depends_on:
       - db
 
+  redis:
+    image: redis:7-alpine
+    restart: always
+    ports:
+      - "${REDIS_PORT}:6379"
+    volumes:
+      - redisdata:/data
+    command: redis-server --appendonly yes ${REDIS_PASSWORD:+--requirepass "$REDIS_PASSWORD"}
+
 volumes:
   dbdata:
+  redisdata:

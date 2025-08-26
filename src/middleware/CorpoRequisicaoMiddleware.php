@@ -12,17 +12,17 @@ use Slim\Psr7\Response;
 
 class CorpoRequisicaoMiddleware implements MiddlewareInterface {
     use RespostaAPI;
-    private string $formato;
+    private string $contentType;
 
-    public function __construct(string $formato = 'application/json') {
-        $this->formato = $formato;
+    public function __construct(string $contentType = 'application/json') {
+        $this->contentType = $contentType;
     }
 
     public function process(ServerRequestInterface $request, RequestHandlerInterface $handler): ResponseInterface {
         $contentType = $request->getHeaderLine('Content-Type');
         $corpoRequisicao = $request->getParsedBody();
 
-        if (empty($corpoRequisicao) || !$this->validarFormato($contentType)) {
+        if (empty($corpoRequisicao) || !$this->validarContentType($contentType)) {
             return $this->enviarResposta(new Response(), StatusHttp::BAD_REQUEST,
                 'O corpo da requisição tem formato inválido.'
             );
@@ -31,7 +31,7 @@ class CorpoRequisicaoMiddleware implements MiddlewareInterface {
         return $handler->handle($request);
     }
 
-    private function validarFormato(string $contentType): bool {
-        return strpos($contentType, $this->formato) !== false;
+    private function validarContentType(string $contentType): bool {
+        return strpos($contentType, $this->contentType) !== false;
     }
 }
